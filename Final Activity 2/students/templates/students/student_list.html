@@ -1,0 +1,48 @@
+{% extends "students/base.html" %}
+{% block title %}Student Directory | Online Enrollment{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div>
+        <p class="text-primary fw-semibold mb-1">STUDENT RECORDS</p>
+        <h1 class="h2 section-title mb-1">Student Directory</h1>
+        <p class="text-secondary mb-0">Select a student to view their complete profile.</p>
+    </div>
+    <a href="/admin/students/student/add/" class="btn btn-primary">+ Add Student</a>
+</div>
+
+<div class="card page-card p-3 p-md-4">
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-sm">
+            <input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search name, student ID, course, or section">
+        </div>
+        <div class="col-auto"><button class="btn btn-primary px-4" type="submit">Search</button></div>
+        {% if query %}<div class="col-auto"><a class="btn btn-light" href="{% url 'students:student_list' %}">Clear</a></div>{% endif %}
+    </form>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="fw-semibold">Enrolled Students</span>
+        <span class="badge text-bg-primary">{{ students|length }} record{{ students|length|pluralize }}</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr><th>Student ID</th><th>Student Name</th><th>Course</th><th>Year & Section</th><th></th></tr>
+            </thead>
+            <tbody>
+            {% for student in students %}
+                <tr>
+                    <td class="text-secondary">{{ student.student_id }}</td>
+                    <td><a class="student-link" href="{% url 'students:student_detail' student.pk %}">{{ student.full_name }}</a></td>
+                    <td>{{ student.course|default:"—" }}</td>
+                    <td>{{ student.year_level|default:"—" }}{% if student.section %} / {{ student.section }}{% endif %}</td>
+                    <td><a class="btn btn-sm btn-outline-primary" href="{% url 'students:student_detail' student.pk %}">View Profile</a></td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5" class="text-center text-secondary py-5">
+                    No student records found. Add student records through the Admin Login.
+                </td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
