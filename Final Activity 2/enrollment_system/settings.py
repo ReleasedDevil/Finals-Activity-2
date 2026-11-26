@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Replace this key before deploying publicly.
 SECRET_KEY = "django-insecure-change-this-before-deployment"
 DEBUG = True
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", 'finals-activity-2-ns5un2ig6-released-devil-s-projects.vercel.app',]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
